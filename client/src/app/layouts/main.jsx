@@ -1,31 +1,35 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import api from "../api";
-// import CatalogLeft from "../components/ui/CatalogLeft";
+import CatalogLeft from "../components/ui/CatalogLeft";
 import Pagination from "../components/ui/pagination";
 import CatalogCenter from "../components/ui/catalogCenter";
 import allCatalog from "../api/fake.api/catalog";
 
 const Main = () => {
   const [catalog, setCatalog] = React.useState([]);
+  const [selectedCatalog, setSelectedCatalog] = React.useState([]);
   const [category, setCategory] = React.useState();
+  const [selectedCategory, setSelectedCategory] = React.useState();
 
-  const catalogConverter = (itm) => {
-    const array = [];
-    for (const key in itm) {
-      if (itm.hasOwnProperty(key)) {
-        array.push(...itm[key]);
-      }
-    }
-    console.log(array);
-    return array;
-  };
+  // const catalogConverter = (itm) => {
+  //   const array = [];
+  //   for (const key in itm) {
+  //     if (itm.hasOwnProperty(key)) {
+  //       array.push(...itm[key]);
+  //     }
+  //   }
+  //   // console.log(array);
+  //   return array;
+  // };
 
   const [currentPage, setCurrentPage] = React.useState(1);
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await allCatalog.fetchAll();
-        setCatalog(catalogConverter(res));
+        setCatalog(res);
+        setSelectedCatalog(res);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -36,32 +40,67 @@ const Main = () => {
   React.useEffect(() => {
     api.category.fetchAll().then((data) => setCategory(data));
   }, []);
-  console.log("category", category);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  const clearFilter = () => {
+    setSelectedCatalog(catalog);
+    setSelectedCategory("");
+  };
+  const handleCategorySelect = (item) => {
+    if (selectedCategory === item._id) {
+      clearFilter();
+    } else {
+      setSelectedCategory(item._id);
+      setSelectedCatalog(catalog);
+      setSelectedCatalog(catalog.filter((n) => n.category === item.category));
+    }
+  };
 
-  const count = catalog.length;
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    if (event.target.value) {
+      setSelectedCategory("");
+      setSelectedCatalog(
+        catalog.filter((item) => item.name.includes(event.target.value))
+      );
+    }
+  };
+
+  const count = selectedCatalog.length;
   const pageSize = 20;
 
   const paginate = (items, pageNumber, pageSize) => {
     const startIndex = (pageNumber - 1) * pageSize;
     return items.slice(startIndex, startIndex + pageSize);
   };
-  const catalogCrop = paginate(catalog, currentPage, pageSize);
+  const catalogCrop = paginate(selectedCatalog, currentPage, pageSize);
 
-  // const handleCategorySelect = (params) => {
-  //   console.log(params);
-  // };
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedCatalog]);
 
   return (
     <div className="container pt-5">
       <div className="row d-flex text-center">
-        {/* <CatalogLeft item={category} onItemSelect={handleCategorySelect} /> */}
+        <CatalogLeft
+          clearFilter={clearFilter}
+          items={category}
+          onItemSelect={handleCategorySelect}
+          selectedItem={selectedCategory}
+        />
+
         <div className="col-md-10 ">
-          <div className="row d-block">
-            <div className="col-md-12 mt-5 card">Функция фильтрации </div>
+          <div className="row d-block ">
+            <div className="col-md-12 mt-5 ">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Поиск"
+                onChange={handleInputChange}
+              />
+            </div>
             <div className="col-md-12 mt-5">
               <div className="d-flex">
                 <div className="row row-cols-1 row-cols-md-4">
@@ -82,6 +121,9 @@ const Main = () => {
           </div>
         </div>
       </div>
+      {/* ) : (
+        <Loader />
+      )} */}
     </div>
   );
 };

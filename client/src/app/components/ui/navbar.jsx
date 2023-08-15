@@ -8,21 +8,13 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-// import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import FitnessCenterSharpIcon from "@mui/icons-material/FitnessCenterSharp";
 import CssBaseline from "@mui/material/CssBaseline";
-import Search from "./Search";
 import { Link } from "react-router-dom";
 import ShoppingBadge from "./badge/ShopingBadge";
 
-// const pages = [
-//   // { name: "КАТАЛОГ", ref: "/catalog/" },
-//   // { name: "ДОСТАВКА И ОПЛАТА", ref: "/delivery/" },
-//   // { name: "БЛОГ", ref: "/blog/" },
-//   // { name: "КОНТАКТЫ", ref: "/contact/" },
-// ];
 const settings = ["Profile", "Logout"];
 
 const NavBar = () => {
@@ -126,9 +118,9 @@ const NavBar = () => {
                 </Link>
               ))} */}
             </Box>
-            <Box sx={{ marginRight: 1 }}>
+            {/* <Box sx={{ marginRight: 1 }}>
               <Search />
-            </Box>
+            </Box> */}
             <Box sx={{ marginRight: 1 }}>
               <Link to="/basket/">
                 <Tooltip title="Tooltip text">
