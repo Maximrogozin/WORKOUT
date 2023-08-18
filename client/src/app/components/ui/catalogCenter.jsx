@@ -31,7 +31,7 @@ const CatalogCenter = ({ item }) => {
           </CardActionArea>
           <div className="card-body">
             <p className="card-text p-2 pb-4">
-              3800 руб. <ShoppingBadge count={3} />
+              <p>{`${item.price} руб.`}</p> <ShoppingBadge count={3} />
             </p>
           </div>
         </Link>

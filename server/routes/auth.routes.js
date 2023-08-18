@@ -1,9 +1,10 @@
 const express = require("express");
 const bcrypto = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
+const router = express.Router({ mergeParams: true });
+
 const User = require("../models/User");
 const tokenService = require("../services/token.service");
-const router = express.Router({ mergeParams: true });
 
 router.post("/signUp", [
   check("email", "Неккоректный email").isEmail(),
