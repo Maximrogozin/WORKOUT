@@ -12,9 +12,9 @@ const categorySlice = createSlice({
   },
   reducers: {
     categoryRequested: (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
     },
-    categoryReceved: (state, action) => {
+    categoryRecieved: (state, action) => {
       state.entities = action.payload;
       state.lastFetch = Date.now();
       state.isLoading = false;
@@ -27,7 +27,7 @@ const categorySlice = createSlice({
 });
 
 const { reducer: categoryReducer, actions } = categorySlice;
-const { categoryRequested, categoryReceved, categoryRequestFailed } = actions;
+const { categoryRequested, categoryRecieved, categoryRequestFailed } = actions;
 
 export const loadCategoryList = () => async (dispatch, getState) => {
   const { lastFetch } = getState().category;
@@ -36,14 +36,14 @@ export const loadCategoryList = () => async (dispatch, getState) => {
     dispatch(categoryRequested());
     try {
       const { content } = await categoryService.get();
-      dispatch(categoryReceved(content));
+      dispatch(categoryRecieved(content));
     } catch (error) {
       dispatch(categoryRequestFailed(error.message));
     }
   }
 };
 
-export const getCategory = () => (state) => state.category.entities;
+export const getCategoryList = () => (state) => state.category.entities;
 export const getCategoryLoadingStatus = () => (state) =>
   state.category.isLoading;
 

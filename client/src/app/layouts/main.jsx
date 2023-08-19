@@ -1,16 +1,33 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import api from "../api";
+import { useSelector } from "react-redux";
+
 import CatalogLeft from "../components/ui/CatalogLeft";
 import Pagination from "../components/ui/pagination";
 import CatalogCenter from "../components/ui/catalogCenter";
 import allCatalog from "../api/fake.api/catalog";
+import { getCategoryList } from "../store/category";
+import categoryService from "../services/category.service";
 
 const Main = () => {
   const [catalog, setCatalog] = React.useState([]);
   const [selectedCatalog, setSelectedCatalog] = React.useState([]);
-  const [category, setCategory] = React.useState();
+  // const [category, setCategory] = React.useState();
   const [selectedCategory, setSelectedCategory] = React.useState();
+  const category = useSelector(getCategoryList());
+
+  //тест
+  const testCategory = async () => {
+    try {
+      const { content } = await categoryService.get();
+      console.log(content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  testCategory();
+
+  console.log("category", category);
 
   // const catalogConverter = (itm) => {
   //   const array = [];
@@ -37,9 +54,9 @@ const Main = () => {
     fetchData();
   }, []);
 
-  React.useEffect(() => {
-    api.category.fetchAll().then((data) => setCategory(data));
-  }, []);
+  // React.useEffect(() => {
+  //   api.category.fetchAll().then((data) => setCategory(data));
+  // }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);

@@ -1,8 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Loader from "./Loader";
+import { useSelector } from "react-redux";
+import { getCategoryLoadingStatus } from "../../store/category";
 
 const CatalogLeft = ({ items, selectedItem, onItemSelect, clearFilter }) => {
+  const loading = useSelector(getCategoryLoadingStatus());
+  console.log(loading);
   return (
     <div className="col-md">
       {items ? (
