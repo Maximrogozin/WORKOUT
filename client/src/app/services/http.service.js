@@ -5,7 +5,7 @@ import authService from "./auth.service";
 import localStorageService from "./localStorage.service";
 
 const http = axios.create({
-  baseUrl: configFile.apiEndpoint,
+  baseURL: configFile.apiEndpoint,
 });
 
 http.interceptors.request.use(

@@ -4,7 +4,7 @@ import categoryReducer from "./category";
 const { combineReducers, configureStore } = require("@reduxjs/toolkit");
 
 const rootReducer = combineReducers({
-  catalog: catalogsReducer,
+  catalogs: catalogsReducer,
   category: categoryReducer,
 });
 

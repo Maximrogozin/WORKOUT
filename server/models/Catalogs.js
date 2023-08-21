@@ -7,6 +7,7 @@ const schema = new Schema(
     category: { type: String },
     description: [String],
     price: Number,
+    count: Number,
     characteristics: [String],
     equipment: [String],
     proportions: String,

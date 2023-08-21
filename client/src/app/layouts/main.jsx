@@ -5,62 +5,25 @@ import { useSelector } from "react-redux";
 import CatalogLeft from "../components/ui/CatalogLeft";
 import Pagination from "../components/ui/pagination";
 import CatalogCenter from "../components/ui/catalogCenter";
-import allCatalog from "../api/fake.api/catalog";
 import { getCategoryList } from "../store/category";
-import categoryService from "../services/category.service";
+import { getCatalogsList } from "../store/catalog";
+import { Copyright } from "../components/ui/footer";
 
 const Main = () => {
-  const [catalog, setCatalog] = React.useState([]);
   const [selectedCatalog, setSelectedCatalog] = React.useState([]);
-  // const [category, setCategory] = React.useState();
   const [selectedCategory, setSelectedCategory] = React.useState();
   const category = useSelector(getCategoryList());
-
-  //тест
-  const testCategory = async () => {
-    try {
-      const { content } = await categoryService.get();
-      console.log(content);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  testCategory();
-
-  console.log("category", category);
-
-  // const catalogConverter = (itm) => {
-  //   const array = [];
-  //   for (const key in itm) {
-  //     if (itm.hasOwnProperty(key)) {
-  //       array.push(...itm[key]);
-  //     }
-  //   }
-  //   // console.log(array);
-  //   return array;
-  // };
-
+  const catalog = useSelector(getCatalogsList());
+  useEffect(() => {
+    setSelectedCatalog(catalog);
+  }, [catalog]);
   const [currentPage, setCurrentPage] = React.useState(1);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await allCatalog.fetchAll();
-        setCatalog(res);
-        setSelectedCatalog(res);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  // React.useEffect(() => {
-  //   api.category.fetchAll().then((data) => setCategory(data));
-  // }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
+
   const clearFilter = () => {
     setSelectedCatalog(catalog);
     setSelectedCategory("");
@@ -80,8 +43,12 @@ const Main = () => {
     if (event.target.value) {
       setSelectedCategory("");
       setSelectedCatalog(
-        catalog.filter((item) => item.name.includes(event.target.value))
+        catalog.filter((item) =>
+          item.name.toLowerCase().includes(event.target.value.toLowerCase())
+        )
       );
+    } else if (event.target.value === "") {
+      setSelectedCatalog(catalog);
     }
   };
 
@@ -97,7 +64,9 @@ const Main = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategory, selectedCatalog]);
-
+  // if (load && catalog === null) {
+  //   return <Loader />;
+  // }
   return (
     <div className="container pt-5">
       <div className="row d-flex text-center">
@@ -138,9 +107,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-      {/* ) : (
-        <Loader />
-      )} */}
+      <Copyright sx={{ mt: 5 }} />
     </div>
   );
 };

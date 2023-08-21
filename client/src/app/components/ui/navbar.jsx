@@ -14,13 +14,15 @@ import FitnessCenterSharpIcon from "@mui/icons-material/FitnessCenterSharp";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Link } from "react-router-dom";
 import ShoppingBadge from "./badge/ShopingBadge";
+import { getAllCount } from "../../store/catalog";
+import { useSelector } from "react-redux";
 
 const settings = ["Profile", "Logout"];
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const res = useSelector(getAllCount);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -95,36 +97,15 @@ const NavBar = () => {
                 sx={{
                   display: { xs: "block", md: "none" },
                 }}
-              >
-                {/* {pages.map((page) => (
-                  <Link className="nav-link " to={page.ref}>
-                    <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                      <Typography textAlign="center">{page.name}</Typography>
-                    </MenuItem>
-                  </Link>
-                ))} */}
-              </Menu>
+              ></Menu>
             </Box>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {/* {pages.map((page) => (
-                <Link to={page.ref} className="nav-link">
-                  <Button
-                    key={page.name}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                  >
-                    {page.name}
-                  </Button>
-                </Link>
-              ))} */}
-            </Box>
-            {/* <Box sx={{ marginRight: 1 }}>
-              <Search />
-            </Box> */}
+            <Box
+              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+            ></Box>
             <Box sx={{ marginRight: 1 }}>
               <Link to="/basket/">
                 <Tooltip title="Tooltip text">
-                  <ShoppingBadge count={3} />
+                  <ShoppingBadge count={res} />
                 </Tooltip>
               </Link>
             </Box>

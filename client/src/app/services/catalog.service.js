@@ -3,15 +3,15 @@ import httpService from "./http.service";
 const catalogEndpoint = "catalog/";
 
 const catalogService = {
-  getProducts: async () => {
+  get: async () => {
     const { data } = await httpService.get(catalogEndpoint);
     return data;
   },
-  createProduct: async (payload) => {
+  create: async (payload) => {
     const { data } = await httpService.post(catalogEndpoint, payload);
     return data;
   },
-  removeProduct: async (productId) => {
+  remove: async (productId) => {
     const { data } = await httpService.delete(catalogEndpoint, productId);
     return data;
   },

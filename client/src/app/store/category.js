@@ -12,7 +12,7 @@ const categorySlice = createSlice({
   },
   reducers: {
     categoryRequested: (state) => {
-      state.isLoading = false;
+      state.isLoading = true;
     },
     categoryRecieved: (state, action) => {
       state.entities = action.payload;
