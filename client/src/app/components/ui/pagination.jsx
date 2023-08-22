@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import _ from "lodash";
 
@@ -15,9 +14,9 @@ const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
             className={"page-item" + (currentPage === page ? " active" : "")}
             key={page}
           >
-            <a className="page-link" onClick={() => onPageChange(page)}>
+            <div className="page-link" onClick={() => onPageChange(page)}>
               {page}
-            </a>
+            </div>
           </li>
         ))}
       </ul>

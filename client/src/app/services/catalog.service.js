@@ -15,6 +15,13 @@ const catalogService = {
     const { data } = await httpService.delete(catalogEndpoint, productId);
     return data;
   },
+  update: async (payload, productId) => {
+    const { data } = await httpService.patch(
+      catalogEndpoint + productId,
+      payload
+    );
+    return data;
+  },
 };
 
 export default catalogService;

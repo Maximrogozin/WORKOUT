@@ -10,11 +10,16 @@ import {
 import { Link } from "react-router-dom";
 import FastLogin from "./fastRegistr";
 import { Copyright } from "./footer";
+import {
+  addObjectToArrayInLocalStorage,
+  removeObjectFromArrayById,
+} from "../../utils/basket.localStorage";
 
 const Basket = () => {
   const dispatch = useDispatch();
   const basket = useSelector(getBasket());
   const res = useSelector(getTotalPrice);
+  basket.map((item) => addObjectToArrayInLocalStorage(item));
 
   const handleIncrement = (id) => {
     dispatch(incrementCount(id));
@@ -26,6 +31,7 @@ const Basket = () => {
 
   const handleDelete = (id) => {
     dispatch(deleteCount(id));
+    removeObjectFromArrayById(id);
   };
   return (
     <div className="container" sx={{ minHeight: "100vh" }}>
@@ -34,7 +40,11 @@ const Basket = () => {
           <>
             <div className="col-xl-8 col-sm-12">
               {basket.map((item) => (
-                <div className="card mb-3" style={{ maxwidth: "540px" }}>
+                <div
+                  className="card mb-3"
+                  style={{ maxwidth: "540px" }}
+                  key={item._id}
+                >
                   <div className="row g-0">
                     <div className="col-md-2 d-none d-md-block">
                       <img
@@ -47,7 +57,9 @@ const Basket = () => {
                     </div>
                     <div className="col-md-6 col-sm-6 d-flex justify-content-center align-items-center">
                       <div>
-                        <p className="p-4 text-center p-md-5">{item.name}</p>
+                        <div className="p-4 text-center p-md-5">
+                          {item.name}
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-4 col-sm-6 mb-3 d-flex justify-content-center align-items-center">
@@ -89,9 +101,6 @@ const Basket = () => {
             <div className="col-xl-4 col-lg-12">
               <div className="card m-2 center">
                 <h3 className="m-3">{`Итого: ${res} руб.`}</h3>
-                {/* <button className="btn btn-primary m-3">
-                  <p className="m-2">Оформить заказ</p>
-                </button> */}
                 <>
                   <button
                     type="button"
@@ -104,7 +113,7 @@ const Basket = () => {
                   <div
                     className="modal fade"
                     id="exampleModal"
-                    tabindex="-1"
+                    tabIndex="-1"
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                   >

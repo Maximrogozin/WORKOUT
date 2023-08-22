@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { forwardRef } from "react";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
@@ -13,14 +13,15 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const ShoppingBadge = ({ count }) => {
+const ShoppingBadge = forwardRef((props, ref) => {
+  const { count } = props;
   return (
-    <IconButton aria-label="cart">
+    <IconButton aria-label="cart" ref={ref} {...props}>
       <StyledBadge badgeContent={count} color="secondary">
         <ShoppingCartIcon />
       </StyledBadge>
     </IconButton>
   );
-};
+});
 
 export default ShoppingBadge;

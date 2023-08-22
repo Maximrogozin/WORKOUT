@@ -8,6 +8,7 @@ export function createArrayInLocalStorage() {
   }
 }
 
+//Добавление в локал сторадж обьекта
 export function addObjectToArrayInLocalStorage(newObject) {
   createArrayInLocalStorage();
   // Получаем текущий массив из Local Storage
@@ -50,6 +51,7 @@ export function getDataFromLocalStorage() {
   }
 }
 
+//функция удаления из локал сторадж по id
 export function removeObjectFromArrayById(id) {
   const arrayString = localStorage.getItem(key);
 
@@ -62,4 +64,17 @@ export function removeObjectFromArrayById(id) {
     const updatedArrayString = JSON.stringify(updatedArray);
     localStorage.setItem(key, updatedArrayString);
   }
+}
+
+//функция для сравнения двух массивов по count
+export function mergeCounts(arr1, arr2) {
+  const result = arr1.map((item1) => {
+    const matchingItem = arr2.find((item2) => item2._id === item1._id);
+    if (matchingItem && matchingItem.count > item1.count) {
+      return { ...item1, count: matchingItem.count };
+    }
+    return item1;
+  });
+
+  return result;
 }

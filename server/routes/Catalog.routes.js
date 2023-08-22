@@ -42,7 +42,7 @@ router
       });
     }
   })
-  .patch(auth, async (req, res) => {
+  .patch("/:productId", async (req, res) => {
     try {
       const { productId } = req.params;
       const updatedCatalog = await Catalog.findByIdAndUpdate(

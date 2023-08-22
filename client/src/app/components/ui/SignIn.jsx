@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,19 +13,61 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "./footer";
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import { validator } from "../../utils/ validator";
+import { getAuthErrors, login } from "../../store/catalog";
+import TextField from "../common/form/textField";
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [data, setData] = React.useState({
+    email: "",
+    password: "",
+    stayOn: false,
+  });
+  const loginError = useSelector(getAuthErrors());
+  const dispath = useDispatch();
+  const [errors, setErrors] = React.useState({});
+  const navigate = useNavigate();
+
+  const handleChange = (target) => {
+    setData((prevState) => ({
+      ...prevState,
+      [target.name]: target.value,
+    }));
+  };
+
+  const validatorConfig = {
+    email: {
+      isRequired: {
+        message: "Электронная почта обязательна для заполнения",
+      },
+    },
+    password: {
+      isRequired: {
+        message: "Пароль обязателен для заполнения",
+      },
+    },
+  };
+
+  React.useEffect(() => {
+    validate();
+  }, [data]);
+
+  const validate = () => {
+    const errors = validator(data, validatorConfig);
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const isValid = Object.keys(errors).length === 0;
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const isValid = validate();
+    if (!isValid) return;
+    dispath(login({ payload: data }));
+    if (!loginError) return navigate("/");
   };
 
   return (
@@ -56,28 +98,32 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
+              value={data.email}
+              onChange={handleChange}
               id="email"
               label="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
+              error={errors.email}
             />
             <TextField
               margin="normal"
               required
               fullWidth
+              onChange={handleChange}
               name="password"
               label="Password"
+              value={data.password}
               type="password"
               id="password"
               autoComplete="current-password"
+              error={errors.password}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            {loginError && <span className="text-danger">{loginError}</span>}
             <Button
               type="submit"
+              disabled={!isValid}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}

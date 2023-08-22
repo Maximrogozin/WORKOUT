@@ -1,21 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { CardActionArea } from "@mui/material";
 import ShoppingBadge from "./badge/ShopingBadge";
-// import Loader from "./Loader";
-import { Link } from "react-router-dom";
-import { addObjectToArrayInLocalStorage } from "../../utils/basket.localStorage";
 import { incrementCount } from "../../store/catalog";
-import { useDispatch } from "react-redux";
-// import { useSelector } from "react-redux";
-// import { getCatalogsLoadingStatus } from "../../store/catalog";
 
 const CatalogCenter = ({ item }) => {
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
   const dispatch = useDispatch();
-
-  // const load = useSelector(getCatalogsLoadingStatus());
 
   function truncateTextToThreeWords(text) {
     const words = text.split(" ");
@@ -26,14 +17,18 @@ const CatalogCenter = ({ item }) => {
   }
 
   const handleClick = (item) => {
-    console.log("click", item);
     dispatch(incrementCount(item._id));
-    addObjectToArrayInLocalStorage(item);
   };
   return (
     <div className="col-xl-3 col-lg-4 col-md-6" key={item._id}>
-      {/* {!load ? ( */}
-      <Link to={`/product/${item._id}`} className="link-unstyled">
+      <Link
+        to={`/product/${item._id}`}
+        style={{
+          color: "inherit",
+          textDecoration: "none",
+          cursor: "pointer",
+        }}
+      >
         <CardActionArea className="pt-2">
           <div className="action">
             <img
@@ -50,14 +45,10 @@ const CatalogCenter = ({ item }) => {
         </CardActionArea>
       </Link>
       <div className="card-body" onClick={() => handleClick(item)}>
-        <p className="card-text p-2 pb-4">
+        <div className="card-text p-2 pb-4">
           <p>{`${item.price} руб.`}</p> <ShoppingBadge count={item.count} />
-        </p>
+        </div>
       </div>
-
-      {/* ) : (
-        <Loader />
-      )} */}
     </div>
   );
 };

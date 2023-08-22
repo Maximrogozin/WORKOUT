@@ -5,7 +5,7 @@ const userEndpoint = "user/";
 
 const userService = {
   get: async () => {
-    const { data } = await http.get(userEndpoint);
+    const { data } = await httpService.get(userEndpoint);
     return data;
   },
   create: async (payload) => {

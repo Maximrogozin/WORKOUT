@@ -7,7 +7,7 @@ export default function Loader() {
     <Box>
       <Skeleton />
       <Skeleton animation="wave" />
-      <Skeleton animation={true} />
+      <Skeleton animation="wave" />
     </Box>
   );
 }

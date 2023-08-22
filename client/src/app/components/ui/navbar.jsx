@@ -5,27 +5,27 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import FitnessCenterSharpIcon from "@mui/icons-material/FitnessCenterSharp";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ShoppingBadge from "./badge/ShopingBadge";
-import { getAllCount } from "../../store/catalog";
-import { useSelector } from "react-redux";
-
-const settings = ["Profile", "Logout"];
+import { getAllCount, getIsLoggedIn, logOut } from "../../store/catalog";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
   const res = useSelector(getAllCount);
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+
+  const admin = useSelector(getIsLoggedIn());
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -37,7 +37,13 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const LogOut = () => {
+    dispatch(logOut());
+  };
 
+  const goToLogin = () => {
+    navigate("/auth/login");
+  };
   return (
     <>
       <CssBaseline />
@@ -51,7 +57,6 @@ const NavBar = () => {
                 component="a"
                 sx={{
                   mr: 2,
-                  display: { xs: "none", md: "flex" },
                   fontFamily: "monospace",
                   fontWeight: 700,
                   letterSpacing: ".3rem",
@@ -59,27 +64,12 @@ const NavBar = () => {
                   textDecoration: "none",
                 }}
               >
-                <FitnessCenterSharpIcon
-                  sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-                />
+                <FitnessCenterSharpIcon sx={{ mr: 1 }} />
                 WORKOUT
               </Typography>
             </Link>
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-              <Link to="/" className="nav-link mt-2">
-                <FitnessCenterSharpIcon />
-              </Link>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
@@ -131,11 +121,15 @@ const NavBar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    {admin ? (
+                      <Typography onClick={LogOut}>Logout</Typography>
+                    ) : (
+                      <Typography onClick={goToLogin}>Login</Typography>
+                    )}
+                  </Typography>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>

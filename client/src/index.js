@@ -5,15 +5,13 @@ import { createStore } from "./app/store/createStore";
 import { Provider } from "react-redux";
 import App from "./app/App";
 
-// import history from "./app/utils/history";
-
 const store = createStore();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <Provider store={store}>
       <App />
-    </BrowserRouter>
-  </Provider>
+    </Provider>
+  </BrowserRouter>
 );

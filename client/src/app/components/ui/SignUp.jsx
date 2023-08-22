@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import * as React from "react";
+import { useDispatch } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,21 +13,88 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Copyright } from "./footer";
+import TextField from "../common/form/textField";
+import CheckBoxField from "../common/form/checkBoxField";
+import { validator } from "../../utils/ validator";
+import { register } from "../../store/catalog";
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-    });
-  };
+  const dispatch = useDispatch();
+  const [data, setData] = React.useState({
+    email: "",
+    password: "",
+    name: "",
+    licence: false,
+  });
 
+  const [errors, setErrors] = React.useState({});
+
+  const handleChange = (target) => {
+    setData((prevState) => ({
+      ...prevState,
+      [target.name]: target.value,
+    }));
+  };
+  const validatorConfog = {
+    email: {
+      isRequired: {
+        message: "Электронная почта обязательна для заполнения",
+      },
+      isEmail: {
+        message: "Email введен некорректно",
+      },
+    },
+    name: {
+      isRequired: {
+        message: "Имя обязательно для заполнения",
+      },
+      min: {
+        message: "Имя должено состаять миниму из 3 символов",
+        value: 3,
+      },
+    },
+    password: {
+      isRequired: {
+        message: "Пароль обязательна для заполнения",
+      },
+      isCapitalSymbol: {
+        message: "Пароль должен содержать хотя бы одну заглавную букву",
+      },
+      isContainDigit: {
+        message: "Пароль должен содержать хотя бы одно число",
+      },
+      min: {
+        message: "Пароль должен состаять миниму из 8 символов",
+        value: 8,
+      },
+    },
+    profession: {
+      isRequired: {
+        message: "Обязательно выберите вашу профессию",
+      },
+    },
+  };
+  React.useEffect(() => {
+    validate();
+  }, [data]);
+  const validate = () => {
+    const errors = validator(data, validatorConfog);
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  const isValid = Object.keys(errors).length === 0;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = validate();
+    if (!isValid) return;
+    const newData = {
+      ...data,
+    };
+    dispatch(register(newData));
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -53,30 +120,22 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
+                  name="name"
+                  value={data.name}
+                  onChange={handleChange}
+                  error={errors.name}
+                  label="name"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
+                  value={data.email}
+                  onChange={handleChange}
+                  error={errors.email}
                   fullWidth
                   id="email"
                   label="Email Address"
@@ -87,26 +146,32 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   required
+                  onChange={handleChange}
                   fullWidth
                   name="password"
                   label="Password"
+                  value={data.password}
+                  error={errors.password}
                   type="password"
                   id="password"
                   autoComplete="new-password"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
+                <CheckBoxField
+                  value={data.licence}
+                  onChange={handleChange}
+                  name="licence"
+                  error={errors.licence}
+                >
+                  Запрос доступа к панели админа
+                </CheckBoxField>
               </Grid>
             </Grid>
             <Button
               type="submit"
               fullWidth
+              disabled={!isValid}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >

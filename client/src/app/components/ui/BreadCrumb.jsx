@@ -1,9 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { getCatalogsById } from "../../store/catalog";
 
 const Breadcrumbs = () => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
+  const breadName = useSelector(getCatalogsById(pathnames[1]));
 
   return (
     <div className="p-3">
@@ -21,7 +24,7 @@ const Breadcrumbs = () => {
                 className="breadcrumb-item active"
                 aria-current="page"
               >
-                {name}
+                {name.length > 9 ? breadName.name : name}
               </li>
             ) : (
               <li key={index} className="breadcrumb-item">

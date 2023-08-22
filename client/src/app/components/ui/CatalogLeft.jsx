@@ -6,7 +6,7 @@ const CatalogLeft = ({ items, selectedItem, onItemSelect, clearFilter }) => {
       <h2 className="text-center">Каталог</h2>
       <ul className="list-group">
         {Object.keys(items).map((item) => (
-          <li
+          <button
             key={items[item]._id}
             className={
               "list-group-item list-group-item-action" +
@@ -15,7 +15,7 @@ const CatalogLeft = ({ items, selectedItem, onItemSelect, clearFilter }) => {
             onClick={() => onItemSelect(items[item])}
           >
             {items[item].name}
-          </li>
+          </button>
         ))}
         <button className="btn btn-secondary mt-2" onClick={clearFilter}>
           Очистить

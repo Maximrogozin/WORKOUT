@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const Slider = ({ images }) => {
   return (
@@ -52,10 +51,6 @@ const Slider = ({ images }) => {
       </button>
     </div>
   );
-};
-
-Slider.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default Slider;

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -64,9 +63,6 @@ const Main = () => {
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedCategory, selectedCatalog]);
-  // if (load && catalog === null) {
-  //   return <Loader />;
-  // }
   return (
     <div className="container pt-5">
       <div className="row d-flex text-center">
