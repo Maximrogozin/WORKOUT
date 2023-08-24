@@ -60,6 +60,12 @@ const catalogsSlice = createSlice({
         product.count = 0;
       }
     },
+    removeBasket: (state) => {
+      const product = state.entities.filter((entity) => entity.count > 0);
+      product.forEach((entity) => {
+        entity.count = 0;
+      });
+    },
     authRequestSuccess: (state, action) => {
       state.auth = action.payload;
       state.isLoggedIn = true;
@@ -98,6 +104,7 @@ const {
   authRequestFailed,
   userLoggedOut,
   catalogsUpdate,
+  removeBasket,
 } = actions;
 
 const authRequested = createAction("catalogs/authRequested");
@@ -173,6 +180,10 @@ export const decrementCount = (productId) => (dispatch) => {
 
 export const deleteCount = (productId) => (dispatch) => {
   dispatch(deleteProductCount(productId));
+};
+
+export const removeCount = () => (dispatch) => {
+  dispatch(removeBasket());
 };
 
 export const getCatalogsList = () => (state) => state.catalogs.entities;

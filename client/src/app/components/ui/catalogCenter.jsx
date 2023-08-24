@@ -4,17 +4,10 @@ import { useDispatch } from "react-redux";
 import { CardActionArea } from "@mui/material";
 import ShoppingBadge from "./badge/ShopingBadge";
 import { incrementCount } from "../../store/catalog";
+import { truncateTextToThreeWords } from "../../utils/sort";
 
 const CatalogCenter = ({ item }) => {
   const dispatch = useDispatch();
-
-  function truncateTextToThreeWords(text) {
-    const words = text.split(" ");
-    if (words.length <= 3) {
-      return text;
-    }
-    return words.slice(0, 3).join(" ") + "...";
-  }
 
   const handleClick = (item) => {
     dispatch(incrementCount(item._id));
@@ -29,7 +22,10 @@ const CatalogCenter = ({ item }) => {
           cursor: "pointer",
         }}
       >
-        <CardActionArea className="pt-2">
+        <CardActionArea
+          className="pt-2 "
+          sx={{ minHeight: 300, borderRadius: "10px" }}
+        >
           <div className="action">
             <img
               src={item.img[0]}

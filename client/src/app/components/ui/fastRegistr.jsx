@@ -1,31 +1,47 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { getBasket } from "../../store/catalog";
+import { getBasket, removeCount } from "../../store/catalog";
 import { Copyright } from "./footer";
+import { nanoid } from "@reduxjs/toolkit";
+import { removeAllObject } from "../../utils/basket.localStorage";
 
 const defaultTheme = createTheme();
 
-export default function FastLogin() {
+export default function FastLogin({ setModalShow }) {
   const totalProducts = [];
+  const dispatch = useDispatch();
   const basket = useSelector(getBasket());
-  basket.map((item) => totalProducts.push(item.name));
+  basket.map((item) => totalProducts.push(item));
+  // const [data, setData] = React.useState();
+  // const isValidEmail = (email) => {
+  //   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  //   return emailPattern.test(email);
+  // };
+
+  // const isValidPhone = (phone) => {
+  //   const phonePattern = /^\+[0-9]{11}$/;
+  //   return phonePattern.test(phone);
+  // };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     console.log({
+      _id: nanoid(),
       email: data.get("email"),
       phone: data.get("phone"),
       firstName: data.get("firstName"),
       lastName: data.get("lastName"),
       product: totalProducts,
     });
+    removeAllObject();
+    dispatch(removeCount());
   };
 
   return (
@@ -94,6 +110,9 @@ export default function FastLogin() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                data-bs-dismiss="modal"
+                // disabled={!isValid}
+                onClick={() => setModalShow(true)}
               >
                 Оформить заказ
               </Button>

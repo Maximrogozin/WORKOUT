@@ -44,6 +44,10 @@ const NavBar = () => {
   const goToLogin = () => {
     navigate("/auth/login");
   };
+
+  const handleManagerPanel = () => {
+    navigate("/description");
+  };
   return (
     <>
       <CssBaseline />
@@ -94,7 +98,7 @@ const NavBar = () => {
             ></Box>
             <Box sx={{ marginRight: 1 }}>
               <Link to="/basket/">
-                <Tooltip title="Tooltip text">
+                <Tooltip>
                   <ShoppingBadge count={res} />
                 </Tooltip>
               </Link>
@@ -121,15 +125,20 @@ const NavBar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">
-                    {admin ? (
-                      <Typography onClick={LogOut}>Logout</Typography>
-                    ) : (
-                      <Typography onClick={goToLogin}>Login</Typography>
-                    )}
-                  </Typography>
-                </MenuItem>
+                {admin ? (
+                  [
+                    <MenuItem key="logout" onClick={LogOut}>
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>,
+                    <MenuItem key="adminPanel" onClick={handleManagerPanel}>
+                      <Typography textAlign="center">AdminPanel</Typography>
+                    </MenuItem>,
+                  ]
+                ) : (
+                  <MenuItem onClick={goToLogin}>
+                    <Typography textAlign="center">Login</Typography>
+                  </MenuItem>
+                )}
               </Menu>
             </Box>
           </Toolbar>

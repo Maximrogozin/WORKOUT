@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementCount,
@@ -14,8 +14,10 @@ import {
   addObjectToArrayInLocalStorage,
   removeObjectFromArrayById,
 } from "../../utils/basket.localStorage";
+import { ModalBasketComponent } from "./ModalSuccess";
 
 const Basket = () => {
+  const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch();
   const basket = useSelector(getBasket());
   const res = useSelector(getTotalPrice);
@@ -33,8 +35,9 @@ const Basket = () => {
     dispatch(deleteCount(id));
     removeObjectFromArrayById(id);
   };
+
   return (
-    <div className="container" sx={{ minHeight: "100vh" }}>
+    <div className="container mt-5" sx={{ minHeight: "100vh" }}>
       <div className="row">
         {basket.length ? (
           <>
@@ -62,7 +65,10 @@ const Basket = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-4 col-sm-6 mb-3 d-flex justify-content-center align-items-center">
+                    <div
+                      className="col-md-4 col-sm-6 d-flex justify-content-center align-items-center"
+                      sx={{ minHeight: "150px" }}
+                    >
                       <div className="col-sm-6">
                         <button
                           className="btn btn-primary "
@@ -99,7 +105,7 @@ const Basket = () => {
               ))}
             </div>
             <div className="col-xl-4 col-lg-12">
-              <div className="card m-2 center">
+              <div className="card m-2 text-center">
                 <h3 className="m-3">{`Итого: ${res} руб.`}</h3>
                 <>
                   <button
@@ -133,7 +139,9 @@ const Basket = () => {
                             aria-label="Close"
                           ></button>
                         </div>
-                        <div className="modal-body">{<FastLogin />}</div>
+                        <div className="modal-body">
+                          {<FastLogin setModalShow={setModalShow} />}
+                        </div>
                         <div className="modal-footer">
                           <button
                             type="button"
@@ -142,9 +150,14 @@ const Basket = () => {
                           >
                             Отменить
                           </button>
-                          <button type="button" className="btn btn-primary">
+                          {/* <button
+                            type="button"
+                            className="btn btn-primary"
+                            data-bs-dismiss="modal"
+                            onClick={handleOrder}
+                          >
                             Заказать
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </div>
@@ -154,16 +167,22 @@ const Basket = () => {
             </div>
           </>
         ) : (
-          <>
+          <div className="m-5">
             <div>
               {" "}
               <h5>В корзине нет товара.</h5>
               <Link to="/">
-                <button className="btn btn-primary">Перейти в каталог</button>
+                <button className="btn btn-primary m-2">
+                  Перейти в каталог
+                </button>
               </Link>
             </div>
-          </>
+          </div>
         )}
+        <ModalBasketComponent
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
       </div>
       <Copyright sx={{ mt: 5 }} />
     </div>

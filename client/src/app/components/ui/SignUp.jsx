@@ -17,6 +17,8 @@ import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
 import { validator } from "../../utils/ validator";
 import { register } from "../../store/catalog";
+import { useNavigate } from "react-router-dom";
+import { validatorConfig } from "../../utils/validator.config";
 
 const defaultTheme = createTheme();
 
@@ -26,8 +28,9 @@ export default function SignUp() {
     email: "",
     password: "",
     name: "",
-    licence: false,
   });
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = React.useState({});
 
@@ -37,50 +40,12 @@ export default function SignUp() {
       [target.name]: target.value,
     }));
   };
-  const validatorConfog = {
-    email: {
-      isRequired: {
-        message: "Электронная почта обязательна для заполнения",
-      },
-      isEmail: {
-        message: "Email введен некорректно",
-      },
-    },
-    name: {
-      isRequired: {
-        message: "Имя обязательно для заполнения",
-      },
-      min: {
-        message: "Имя должено состаять миниму из 3 символов",
-        value: 3,
-      },
-    },
-    password: {
-      isRequired: {
-        message: "Пароль обязательна для заполнения",
-      },
-      isCapitalSymbol: {
-        message: "Пароль должен содержать хотя бы одну заглавную букву",
-      },
-      isContainDigit: {
-        message: "Пароль должен содержать хотя бы одно число",
-      },
-      min: {
-        message: "Пароль должен состаять миниму из 8 символов",
-        value: 8,
-      },
-    },
-    profession: {
-      isRequired: {
-        message: "Обязательно выберите вашу профессию",
-      },
-    },
-  };
+
   React.useEffect(() => {
     validate();
   }, [data]);
   const validate = () => {
-    const errors = validator(data, validatorConfog);
+    const errors = validator(data, validatorConfig);
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -94,6 +59,7 @@ export default function SignUp() {
       ...data,
     };
     dispatch(register(newData));
+    navigate("/");
   };
   return (
     <ThemeProvider theme={defaultTheme}>

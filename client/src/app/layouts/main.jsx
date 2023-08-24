@@ -7,6 +7,7 @@ import CatalogCenter from "../components/ui/catalogCenter";
 import { getCategoryList } from "../store/category";
 import { getCatalogsList } from "../store/catalog";
 import { Copyright } from "../components/ui/footer";
+import Loader from "../components/ui/Loader";
 
 const Main = () => {
   const [selectedCatalog, setSelectedCatalog] = React.useState([]);
@@ -27,6 +28,7 @@ const Main = () => {
     setSelectedCatalog(catalog);
     setSelectedCategory("");
   };
+
   const handleCategorySelect = (item) => {
     if (selectedCategory === item._id) {
       clearFilter();
@@ -62,47 +64,52 @@ const Main = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, selectedCatalog]);
+  }, [selectedCategory]);
+
   return (
     <div className="container pt-5">
-      <div className="row d-flex text-center">
-        <CatalogLeft
-          clearFilter={clearFilter}
-          items={category}
-          onItemSelect={handleCategorySelect}
-          selectedItem={selectedCategory}
-        />
+      {selectedCatalog ? (
+        <div className="row d-flex text-center">
+          <CatalogLeft
+            clearFilter={clearFilter}
+            items={category}
+            onItemSelect={handleCategorySelect}
+            selectedItem={selectedCategory}
+          />
 
-        <div className="col-md-10 ">
-          <div className="row d-block ">
-            <div className="col-md-12 mt-5 ">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Поиск"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-12 mt-5">
-              <div className="d-flex">
-                <div className="row row-cols-1 row-cols-md-4">
-                  {catalogCrop.map((item, index) => (
-                    <CatalogCenter key={index} item={item} />
-                  ))}
+          <div className="col-md-10 ">
+            <div className="row d-block ">
+              <div className="col-md-12 mt-5 ">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Поиск"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="col-md-12 mt-5">
+                <div className="d-flex">
+                  <div className="row row-cols-1 row-cols-md-4">
+                    {catalogCrop.map((item, index) => (
+                      <CatalogCenter key={index} item={item} />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <Pagination
-              itemsCount={count}
-              pageSize={pageSize}
-              onPageChange={handlePageChange}
-              currentPage={currentPage}
-            />
+            <div className="row">
+              <Pagination
+                itemsCount={count}
+                pageSize={pageSize}
+                onPageChange={handlePageChange}
+                currentPage={currentPage}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <Loader />
+      )}
       <Copyright sx={{ mt: 5 }} />
     </div>
   );

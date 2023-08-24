@@ -12,7 +12,7 @@ import { Copyright } from "../ui/footer";
 
 const ProductDescriptionPage = () => {
   const location = useLocation();
-  const admin = useSelector(getIsLoggedIn());
+  const admin = useSelector(getIsLoggedIn);
   const path = location.pathname.split("/").filter((x) => x);
   const id = path[path.length - 1];
   const product = useSelector(getCatalogsById(id));
@@ -31,6 +31,11 @@ const ProductDescriptionPage = () => {
   const handleSave = () => {
     dispatch(updateCatalog(editedProduct, editedProduct._id));
     setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setEditedProduct(product);
+    setIsEditing(!isEditing);
   };
 
   return (
@@ -150,7 +155,8 @@ const ProductDescriptionPage = () => {
                   )}
                   <button
                     className="btn btn-danger m-2"
-                    onClick={() => setIsEditing(!isEditing)}
+                    // onClick={() => setIsEditing(!isEditing)}
+                    onClick={handleCancel}
                   >
                     {isEditing ? "Отмена" : "Редактировать"}
                   </button>
@@ -323,7 +329,11 @@ const ProductDescriptionPage = () => {
             {editedProduct.equipment && (
               <>
                 <h2 className="text-center">
-                  {product.equipment.length ? <span> Комплектация</span> : ""}
+                  {editedProduct.equipment.length ? (
+                    <span> Комплектация</span>
+                  ) : (
+                    ""
+                  )}
                 </h2>
                 <ul className="m-5">
                   {editedProduct.equipment.map((item, index) => (

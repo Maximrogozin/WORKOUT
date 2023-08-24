@@ -66,6 +66,11 @@ export function removeObjectFromArrayById(id) {
   }
 }
 
+// Очистка локал сторадж
+export function removeAllObject() {
+  localStorage.removeItem(key);
+}
+
 //функция для сравнения двух массивов по count
 export function mergeCounts(arr1, arr2) {
   const result = arr1.map((item1) => {
@@ -77,4 +82,13 @@ export function mergeCounts(arr1, arr2) {
   });
 
   return result;
+}
+
+export function resetCountToZero(objectsArray) {
+  for (let i = 0; i < objectsArray.length; i++) {
+    if (typeof objectsArray[i] === "object" && objectsArray[i] !== null) {
+      objectsArray[i].count = 0;
+    }
+  }
+  console.log(objectsArray);
 }
