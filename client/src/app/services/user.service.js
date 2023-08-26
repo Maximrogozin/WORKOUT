@@ -1,7 +1,7 @@
 import httpService from "./http.service";
 import localStorageService from "./localStorage.service";
 
-const userEndpoint = "user/";
+const userEndpoint = "users/";
 
 const userService = {
   get: async () => {
@@ -16,6 +16,10 @@ const userService = {
     const { data } = await httpService.get(
       userEndpoint + localStorageService.getUserId()
     );
+    return data;
+  },
+  remove: async (userId) => {
+    const { data } = await httpService.delete(userEndpoint + userId);
     return data;
   },
   update: async (payload) => {

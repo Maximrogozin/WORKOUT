@@ -12,7 +12,7 @@ const catalogService = {
     return data;
   },
   remove: async (productId) => {
-    const { data } = await httpService.delete(catalogEndpoint, productId);
+    const { data } = await httpService.delete(catalogEndpoint + productId);
     return data;
   },
   update: async (payload, productId) => {

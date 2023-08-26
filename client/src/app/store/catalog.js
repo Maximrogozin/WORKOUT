@@ -83,11 +83,15 @@ const catalogsSlice = createSlice({
     catalogsCreated: (state, action) => {
       state.entities.push(action.payload);
     },
+    productRemove: (state, action) => {
+      state.entities = state.entities.filter((p) => p._id !== action.payload);
+    },
 
     catalogsUpdate: (state, action) => {
       state.entities[
         state.entities.findIndex((u) => u._id === action.payload._id)
       ] = action.payload;
+      console.log(action.payload);
     },
   },
 });
@@ -105,11 +109,12 @@ const {
   userLoggedOut,
   catalogsUpdate,
   removeBasket,
+  productRemove,
 } = actions;
 
 const authRequested = createAction("catalogs/authRequested");
 const catalogsUpdateFailed = createAction("catalogs/catalogsUpdateFailed");
-const catalogUpdateRequested = createAction("catalogs/catalogUpdateRequested");
+// const catalogUpdateRequested = createAction("catalogs/catalogUpdateRequested");
 
 export const login =
   ({ payload }) =>
@@ -161,10 +166,22 @@ export const loadCatalogsList = () => async (dispatch) => {
 };
 
 export const updateCatalog = (payload, productId) => async (dispatch) => {
-  dispatch(catalogUpdateRequested());
+  // dispatch(catalogUpdateRequested());
   try {
     const { content } = await catalogService.update(payload, productId);
     dispatch(catalogsUpdate(content));
+  } catch (error) {
+    dispatch(catalogsUpdateFailed(error.message));
+  }
+};
+
+export const removeProduct = (productId) => async (dispatch) => {
+  console.log(productId);
+  try {
+    const { content } = await catalogService.remove(productId);
+    if (!content) {
+      dispatch(productRemove(productId));
+    }
   } catch (error) {
     dispatch(catalogsUpdateFailed(error.message));
   }

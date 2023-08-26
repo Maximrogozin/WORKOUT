@@ -3,10 +3,6 @@ import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 
 export function ModalBasketComponent(props) {
-  const product = [
-    { name: "Турник", count: 2 },
-    { name: "Брусья", count: 1 },
-  ];
   return (
     <Modal
       {...props}
@@ -19,16 +15,6 @@ export function ModalBasketComponent(props) {
           Ваш заказ успешно оформлен!
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <ul className="list-group">
-          {product.map((item) => (
-            <li className="list-group-item d-flex justify-content-between align-items-center">
-              {item.name}
-              <span class="badge bg-primary rounded-pill">{item.count}</span>
-            </li>
-          ))}
-        </ul>
-      </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide}>Close</Button>
       </Modal.Footer>

@@ -10,6 +10,7 @@ import { getBasket, removeCount } from "../../store/catalog";
 import { Copyright } from "./footer";
 import { nanoid } from "@reduxjs/toolkit";
 import { removeAllObject } from "../../utils/basket.localStorage";
+import { createOrder } from "../../store/orders";
 
 const defaultTheme = createTheme();
 
@@ -31,7 +32,16 @@ export default function FastLogin({ setModalShow }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
+    dispatch(
+      createOrder({
+        _id: nanoid(),
+        email: data.get("email"),
+        phone: data.get("phone"),
+        firstName: data.get("firstName"),
+        lastName: data.get("lastName"),
+        product: totalProducts,
+      })
+    );
     console.log({
       _id: nanoid(),
       email: data.get("email"),

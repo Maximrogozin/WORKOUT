@@ -41,13 +41,6 @@ const NavBar = () => {
     dispatch(logOut());
   };
 
-  const goToLogin = () => {
-    navigate("/auth/login");
-  };
-
-  const handleManagerPanel = () => {
-    navigate("/description");
-  };
   return (
     <>
       <CssBaseline />
@@ -72,7 +65,6 @@ const NavBar = () => {
                 WORKOUT
               </Typography>
             </Link>
-
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <Menu
                 id="menu-appbar"
@@ -130,12 +122,32 @@ const NavBar = () => {
                     <MenuItem key="logout" onClick={LogOut}>
                       <Typography textAlign="center">Logout</Typography>
                     </MenuItem>,
-                    <MenuItem key="adminPanel" onClick={handleManagerPanel}>
-                      <Typography textAlign="center">AdminPanel</Typography>
+                    <MenuItem
+                      key="adminPanel1"
+                      onClick={() => {
+                        navigate("/orders");
+                        setAnchorElUser(null);
+                      }}
+                    >
+                      <Typography textAlign="center">Заказы</Typography>
+                    </MenuItem>,
+                    <MenuItem
+                      key="adminPanel2"
+                      onClick={() => {
+                        navigate("/users");
+                        setAnchorElUser(null);
+                      }}
+                    >
+                      <Typography textAlign="center">Пользователи</Typography>
                     </MenuItem>,
                   ]
                 ) : (
-                  <MenuItem onClick={goToLogin}>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/auth/login");
+                      setAnchorElUser(null);
+                    }}
+                  >
                     <Typography textAlign="center">Login</Typography>
                   </MenuItem>
                 )}

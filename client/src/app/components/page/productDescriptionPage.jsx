@@ -1,23 +1,24 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Slider from "../ui/Slider";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCatalogsById,
   getIsLoggedIn,
   incrementCount,
+  removeProduct,
   updateCatalog,
 } from "../../store/catalog";
 import { Copyright } from "../ui/footer";
 
 const ProductDescriptionPage = () => {
   const location = useLocation();
-  const admin = useSelector(getIsLoggedIn);
+  const admin = useSelector(getIsLoggedIn());
   const path = location.pathname.split("/").filter((x) => x);
   const id = path[path.length - 1];
   const product = useSelector(getCatalogsById(id));
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [editedProduct, setEditedProduct] = useState(product);
   const [isEditing, setIsEditing] = useState(false);
   const handleIncrement = (id) => {
@@ -33,13 +34,18 @@ const ProductDescriptionPage = () => {
     setIsEditing(false);
   };
 
+  const handleDelete = (id) => {
+    dispatch(removeProduct(id));
+    navigate("/");
+  };
+
   const handleCancel = () => {
     setEditedProduct(product);
     setIsEditing(!isEditing);
   };
 
   return (
-    <div className="container">
+    <div className="container pt-5">
       <div className="row">
         <div className="row">
           <div className="col-md-6 p-auto text-center">
@@ -146,12 +152,20 @@ const ProductDescriptionPage = () => {
               {admin && (
                 <>
                   {isEditing && (
-                    <button
-                      className="btn btn-success m-2"
-                      onClick={handleSave}
-                    >
-                      Сохранить
-                    </button>
+                    <>
+                      <button
+                        className="btn btn-success m-2"
+                        onClick={handleSave}
+                      >
+                        Сохранить
+                      </button>
+                      <button
+                        className="btn btn-danger m-2"
+                        onClick={() => handleDelete(editedProduct._id)}
+                      >
+                        Удалить товар
+                      </button>
+                    </>
                   )}
                   <button
                     className="btn btn-danger m-2"

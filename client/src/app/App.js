@@ -8,7 +8,9 @@ import SignUp from "./components/ui/SignUp";
 import SignIn from "./components/ui/SignIn";
 import AppLoader from "./components/ui/hoc/appLoader";
 import FastLogin from "./components/ui/fastRegistr";
-import Test from "./components/page/ManagerPanel";
+import Test from "./components/page/Orders";
+import Orders from "./components/page/Orders";
+import Users from "./components/page/Users";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Routes>
           <Route path="/basket/" element={<Basket />} />
           <Route path="/fastLogin" element={<FastLogin />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/" element={<Main />} />
           <Route path="/description" element={<Test />} />
           <Route path="/product/:id" element={<ProductDescriptionPage />} />

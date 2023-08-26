@@ -11,6 +11,8 @@ import {
 } from "../../../store/category";
 import Loader from "../Loader";
 import { createArrayInLocalStorage } from "../../../utils/basket.localStorage";
+import { loadUsersList } from "../../../store/users";
+import { loadOrdersList } from "../../../store/orders";
 
 const AppLoader = ({ children }) => {
   const dispatch = useDispatch();
@@ -19,6 +21,8 @@ const AppLoader = ({ children }) => {
   useEffect(() => {
     dispatch(loadCatalogsList());
     dispatch(loadCategoryList());
+    dispatch(loadUsersList());
+    dispatch(loadOrdersList());
     createArrayInLocalStorage();
   }, []);
   if (catalogStatusLoading || categoryLoadingStatus) return <Loader />;

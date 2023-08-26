@@ -92,7 +92,7 @@ export default function SignUp() {
                   value={data.name}
                   onChange={handleChange}
                   error={errors.name}
-                  label="name"
+                  label="Имя"
                   autoFocus
                 />
               </Grid>

@@ -31,10 +31,11 @@ router
   });
 
 router
-  .delete("/:productId", auth, async (req, res) => {
+  .delete("/:productId", async (req, res) => {
     try {
       const { productId } = req.params;
       await Catalog.findByIdAndDelete(productId);
+
       return res.send(null);
     } catch (error) {
       res.status(500).json({
@@ -50,6 +51,7 @@ router
         req.body,
         { new: true }
       );
+      console.log(updatedCatalog);
       res.status(200).send(updatedCatalog);
     } catch (error) {
       res.status(500).json({
