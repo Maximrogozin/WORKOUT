@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
 import { getOrdersList } from "../../store/orders";
 
 const Orders = () => {
@@ -12,10 +13,10 @@ const Orders = () => {
           <ul className="list-group">
             <li className="list-group-item p-2">
               <div className="row text-center">
-                <div className="col">Имя</div>
-                <div className="col">Фамилия</div>
-                <div className="col">Email</div>
-                <div className="col">Телефон</div>
+                <div className="col-3">Имя</div>
+                <div className="col-3">Фамилия</div>
+                <div className="col-3">Email</div>
+                <div className="col-3">Телефон</div>
               </div>
             </li>
             <div className="accordion" id="accordionExample">
@@ -31,12 +32,10 @@ const Orders = () => {
                       aria-controls={`collapse${item._id}`}
                     >
                       <div className="row text-center align-items-center w-100">
-                        <div className="col-2 text-center">
-                          {item.firstName}
-                        </div>
-                        <div className="col-2 text-center">{item.lastName}</div>
-                        <div className="col-2">{item.email}</div>
-                        <div className="col-2">{item.phone}</div>
+                        <div className="col-3">{item.firstName}</div>
+                        <div className="col-3">{item.lastName}</div>
+                        <div className="col-3">{item.email}</div>
+                        <div className="col-3">{item.phone}</div>
                       </div>
                     </button>
                   </h2>

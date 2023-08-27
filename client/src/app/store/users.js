@@ -1,26 +1,24 @@
+import localStorageService from "../services/localStorage.service";
 import userService from "../services/user.service";
-
 const { createSlice, createAction } = require("@reduxjs/toolkit");
-const {
-  default: localStorageService,
-} = require("../services/localStorage.service");
 
 const initialState = localStorageService.getAccessToken()
   ? {
       entities: null,
       isLoading: true,
       error: null,
-      auth: { userId: localStorageService.getUserId() },
-      isLoggedIn: true,
+      userId: localStorageService.getUserId(),
+      rootAdmin: false,
+      rootManager: false,
     }
   : {
       entities: null,
       isLoading: false,
       error: null,
-      auth: null,
-      isLoggedIn: false,
+      userId: null,
+      rootAdmin: false,
+      rootManager: false,
     };
-
 const usersSlice = createSlice({
   name: "users",
   initialState,
@@ -30,7 +28,19 @@ const usersSlice = createSlice({
     },
     usersReceved: (state, action) => {
       state.entities = action.payload;
+      // const user = state.entities.users.find(
+      //   (entity) => entity._id === state.userId
+      // );
+      // state.rootAdmin = user.rootAdmin;
+      // state.rootManager = user.rootManager;
       state.isLoading = false;
+    },
+    usersRoot: (state, action) => {
+      const user = state.entities.find((entity) => entity._id === state.userId);
+      if (user) {
+        state.rootAdmin = user.rootAdmin;
+        state.rootManager = user.rootManager;
+      }
     },
     usersRequestFiled: (state, action) => {
       state.error = action.payload;
@@ -72,6 +82,7 @@ const {
   usersRequestFiled,
   userUpdateSuccessed,
   userRemove,
+  usersRoot,
 } = actions;
 
 const userUpdateFailed = createAction("users/userUpdateFailed");
@@ -84,6 +95,7 @@ export const loadUsersList = () => async (dispatch) => {
   try {
     const { content } = await userService.get();
     dispatch(usersReceved(content));
+    dispatch(usersRoot());
   } catch (error) {
     dispatch(usersRequestFiled(error.message));
   }
@@ -112,5 +124,7 @@ export const deleteUser = (userId) => async (dispatch) => {
 };
 
 export const getUsersList = () => (state) => state.users.entities;
+export const getIsRootAdmin = () => (state) => state.users.rootAdmin;
+export const getIsRootManager = () => (state) => state.users.rootManager;
 
 export default usersReducer;

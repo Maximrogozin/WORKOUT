@@ -21,7 +21,6 @@ const NavBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const res = useSelector(getAllCount);
-
   const admin = useSelector(getIsLoggedIn());
   const dispatch = useDispatch();
   const navigate = useNavigate();

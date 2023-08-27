@@ -11,6 +11,8 @@ import FastLogin from "./components/ui/fastRegistr";
 import Test from "./components/page/Orders";
 import Orders from "./components/page/Orders";
 import Users from "./components/page/Users";
+import ProtectedRouteAdmin from "./components/common/protectedRouteAdmin";
+import ProtectedRoute from "./components/common/protectedRoute";
 
 function App() {
   return (
@@ -21,8 +23,14 @@ function App() {
         <Routes>
           <Route path="/basket/" element={<Basket />} />
           <Route path="/fastLogin" element={<FastLogin />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/users" element={<Users />} />
+          <Route
+            path="/orders"
+            element={<ProtectedRoute component={Orders} />}
+          />
+          <Route
+            path="/users"
+            element={<ProtectedRouteAdmin component={Users} />}
+          />
           <Route path="/" element={<Main />} />
           <Route path="/description" element={<Test />} />
           <Route path="/product/:id" element={<ProductDescriptionPage />} />

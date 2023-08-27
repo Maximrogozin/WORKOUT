@@ -10,6 +10,7 @@ import {
   updateCatalog,
 } from "../../store/catalog";
 import { Copyright } from "../ui/footer";
+import { ToastContainer, toast } from "react-toastify";
 
 const ProductDescriptionPage = () => {
   const location = useLocation();
@@ -21,8 +22,13 @@ const ProductDescriptionPage = () => {
   const navigate = useNavigate();
   const [editedProduct, setEditedProduct] = useState(product);
   const [isEditing, setIsEditing] = useState(false);
+  const notify = () =>
+    toast.success("Добавлено !", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
   const handleIncrement = (id) => {
     dispatch(incrementCount(id));
+    notify();
     setEditedProduct((prevEditedProduct) => ({
       ...prevEditedProduct,
       count: prevEditedProduct.count + 1,
@@ -406,6 +412,7 @@ const ProductDescriptionPage = () => {
             )}
           </div>
         </div>
+        <ToastContainer />
       </div>
       <Copyright sx={{ m: 5 }} />
     </div>

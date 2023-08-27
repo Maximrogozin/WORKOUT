@@ -15,6 +15,7 @@ import {
   removeObjectFromArrayById,
 } from "../../utils/basket.localStorage";
 import { ModalBasketComponent } from "./ModalSuccess";
+import { ToastContainer, toast } from "react-toastify";
 
 const Basket = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -22,6 +23,10 @@ const Basket = () => {
   const basket = useSelector(getBasket());
   const res = useSelector(getTotalPrice);
   basket.map((item) => addObjectToArrayInLocalStorage(item));
+  const notify = () =>
+    toast.warn("Удалено !", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
 
   const handleIncrement = (id) => {
     dispatch(incrementCount(id));
@@ -34,6 +39,7 @@ const Basket = () => {
   const handleDelete = (id) => {
     dispatch(deleteCount(id));
     removeObjectFromArrayById(id);
+    notify();
   };
 
   return (
@@ -50,13 +56,24 @@ const Basket = () => {
                 >
                   <div className="row g-0">
                     <div className="col-md-2 d-none d-md-block">
-                      <img
-                        src={item.img[0]}
-                        className="img-fluid rounded-start"
-                        alt={item.name}
-                        width="150"
-                        height="150"
-                      />
+                      <Link
+                        to={`/product/${item._id}`}
+                        style={{
+                          color: "inherit",
+                          textDecoration: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {
+                          <img
+                            src={item.img[0]}
+                            className="img-fluid rounded-start"
+                            alt={item.name}
+                            width="150"
+                            height="150"
+                          />
+                        }
+                      </Link>
                     </div>
                     <div className="col-md-6 col-sm-6 d-flex justify-content-center align-items-center">
                       <div>
@@ -183,6 +200,7 @@ const Basket = () => {
           show={modalShow}
           onHide={() => setModalShow(false)}
         />
+        <ToastContainer />
       </div>
       <Copyright sx={{ mt: 5 }} />
     </div>

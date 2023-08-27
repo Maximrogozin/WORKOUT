@@ -7,7 +7,33 @@ export const validatorConfig = {
       message: "Email введен некорректно",
     },
   },
+  phone: {
+    isRequired: {
+      message: "Телефон обязателен для заполнения",
+    },
+    isPhone: {
+      message: "Телефон должен состоять из 11 цифр и в начале иметь +",
+    },
+  },
   name: {
+    isRequired: {
+      message: "Имя обязательно для заполнения",
+    },
+    min: {
+      message: "Имя должено состаять миниму из 3 символов",
+      value: 3,
+    },
+  },
+  lastName: {
+    isRequired: {
+      message: "Фамилия обязательна для заполнения",
+    },
+    min: {
+      message: "Фамилия должена состаять миниму из 3 символов",
+      value: 3,
+    },
+  },
+  firstName: {
     isRequired: {
       message: "Имя обязательно для заполнения",
     },

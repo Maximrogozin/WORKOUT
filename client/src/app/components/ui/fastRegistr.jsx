@@ -1,14 +1,16 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { nanoid } from "@reduxjs/toolkit";
 import { getBasket, removeCount } from "../../store/catalog";
 import { Copyright } from "./footer";
-import { nanoid } from "@reduxjs/toolkit";
+import TextField from "../common/form/textField";
+import { validator } from "../../utils/ validator";
+import { validatorConfig } from "../../utils/validator.config";
 import { removeAllObject } from "../../utils/basket.localStorage";
 import { createOrder } from "../../store/orders";
 
@@ -19,39 +21,46 @@ export default function FastLogin({ setModalShow }) {
   const dispatch = useDispatch();
   const basket = useSelector(getBasket());
   basket.map((item) => totalProducts.push(item));
-  // const [data, setData] = React.useState();
-  // const isValidEmail = (email) => {
-  //   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  //   return emailPattern.test(email);
-  // };
 
-  // const isValidPhone = (phone) => {
-  //   const phonePattern = /^\+[0-9]{11}$/;
-  //   return phonePattern.test(phone);
-  // };
+  const [formData, setFormData] = React.useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+  });
+  const [formErrors, setFormErrors] = React.useState({});
+
+  const handleChange = (target) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [target.name]: target.value,
+    }));
+  };
+
+  React.useEffect(() => {
+    validateForm();
+  }, [formData]);
+
+  const validateForm = () => {
+    const errors = validator(formData, validatorConfig);
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  const isValid = Object.keys(formErrors).length === 0;
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    dispatch(
-      createOrder({
-        _id: nanoid(),
-        email: data.get("email"),
-        phone: data.get("phone"),
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        product: totalProducts,
-      })
-    );
-    console.log({
+    const isValid = validateForm();
+    if (!isValid) return;
+    const data = {
+      ...formData,
       _id: nanoid(),
-      email: data.get("email"),
-      phone: data.get("phone"),
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
       product: totalProducts,
-    });
+    };
+    dispatch(createOrder(data));
     removeAllObject();
     dispatch(removeCount());
+    setModalShow(true);
   };
 
   return (
@@ -75,23 +84,20 @@ export default function FastLogin({ setModalShow }) {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    id="firstName"
                     label="Имя"
-                    autoFocus
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    error={formErrors.firstName}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
-                    fullWidth
-                    id="lastName"
                     label="Фамилия"
                     name="lastName"
-                    autoComplete="family-name"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    error={formErrors.lastName}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -102,6 +108,9 @@ export default function FastLogin({ setModalShow }) {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={formErrors.email}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -109,9 +118,12 @@ export default function FastLogin({ setModalShow }) {
                     required
                     fullWidth
                     name="phone"
-                    label="Телефон для связи"
+                    label="Телефон для связи в формате +7**"
                     type="phone"
                     id="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    error={formErrors.phone}
                   />
                 </Grid>
               </Grid>
@@ -121,8 +133,7 @@ export default function FastLogin({ setModalShow }) {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 data-bs-dismiss="modal"
-                // disabled={!isValid}
-                onClick={() => setModalShow(true)}
+                disabled={!isValid}
               >
                 Оформить заказ
               </Button>
