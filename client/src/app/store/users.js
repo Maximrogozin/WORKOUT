@@ -31,7 +31,9 @@ const usersSlice = createSlice({
       state.isLoading = false;
     },
     usersRoot: (state) => {
-      const user = state.entities.find((entity) => entity._id === state.userId);
+      const user = state.entities.find(
+        (entity) => entity._id === localStorageService.getUserId()
+      );
       if (user) {
         state.rootAdmin = user.rootAdmin;
         state.rootManager = user.rootManager;
