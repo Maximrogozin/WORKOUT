@@ -7,8 +7,8 @@ import SignUp from "./components/ui/SignUp";
 import SignIn from "./components/ui/SignIn";
 import AppLoader from "./components/ui/hoc/appLoader";
 import FastLogin from "./components/ui/fastRegistr";
-import Orders from "./components/page/Orders";
-import Users from "./components/page/Users";
+// import Orders from "./components/page/Orders";
+// import Users from "./components/page/Users";
 import ProtectedRouteAdmin from "./components/common/protectedRouteAdmin";
 import ProtectedRoute from "./components/common/protectedRoute";
 
@@ -24,14 +24,8 @@ function App() {
         <Routes>
           <Route path="/basket/" element={<BasketList />} />
           <Route path="/fastLogin" element={<FastLogin />} />
-          <Route
-            path="/orders"
-            element={<ProtectedRoute component={Orders} />}
-          />
-          <Route
-            path="/users"
-            element={<ProtectedRouteAdmin component={Users} />}
-          />
+          <Route path="/orders" element={<ProtectedRoute />} />
+          <Route path="/users" element={<ProtectedRouteAdmin />} />
           <Route path="/" element={<Main />} />
           <Route path="/product/:id" element={<ProtectedRouteEditPage />} />
           <Route path="/auth/login" element={<SignIn />} />

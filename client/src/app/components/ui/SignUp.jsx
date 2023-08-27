@@ -17,9 +17,9 @@ import { Copyright } from "./footer";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
 import { validator } from "../../utils/ validator";
-import { register } from "../../store/catalog";
 import { useNavigate } from "react-router-dom";
 import { validatorConfig } from "../../utils/validator.config";
+import { register } from "../../store/catalog";
 
 const defaultTheme = createTheme();
 
@@ -146,7 +146,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="flex-end" className="mb-5">
               <Grid item>
                 <Link href="/auth/login" variant="body2">
                   Already have an account? Sign in
@@ -155,7 +155,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Copyright sx={{ mt: 5, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

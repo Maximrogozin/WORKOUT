@@ -72,11 +72,16 @@ const ProductDescriptionPage = () => {
         <div className="row">
           <div className="col-md-6">
             {product.characteristics && (
-              <ProductDetail detail={product.characteristics} />
+              <ProductDetail
+                detail={product.characteristics}
+                title="Характеристики"
+              />
             )}
           </div>
           <div className="col-md-6">
-            {product.equipment && <ProductDetail detail={product.equipment} />}
+            {product.equipment && (
+              <ProductDetail detail={product.equipment} title="Комплектация" />
+            )}
           </div>
         </div>
         <ToastContainer />

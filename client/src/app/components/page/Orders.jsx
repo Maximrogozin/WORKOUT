@@ -1,11 +1,15 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { getOrdersList } from "../../store/orders";
 import OrdersList from "../ui/OrdersList";
+import { rootUsers } from "../../store/users";
 
 const Orders = () => {
+  const dispatch = useDispatch();
+  dispatch(rootUsers());
   const orders = useSelector(getOrdersList());
+
   return (
     <div className="container p-2">
       <div className="row">

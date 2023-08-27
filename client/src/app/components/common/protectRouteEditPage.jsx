@@ -10,9 +10,9 @@ const ProtectedRouteEditPage = () => {
   const rootManager = useSelector(getIsRootManager());
 
   return rootManager || rootAdmin ? (
-    <ProductDescriptionPage />
-  ) : (
     <ProductDescriptionEditPage />
+  ) : (
+    <ProductDescriptionPage />
   );
 };
 

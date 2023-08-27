@@ -30,7 +30,7 @@ const usersSlice = createSlice({
       state.entities = action.payload;
       state.isLoading = false;
     },
-    usersRoot: (state, action) => {
+    usersRoot: (state) => {
       const user = state.entities.find((entity) => entity._id === state.userId);
       if (user) {
         state.rootAdmin = user.rootAdmin;
@@ -116,6 +116,10 @@ export const deleteUser = (userId) => async (dispatch) => {
   } catch (error) {
     dispatch(userDeleteFailed(error.message));
   }
+};
+
+export const rootUsers = () => (dispatch) => {
+  dispatch(usersRoot());
 };
 
 export const getUsersList = () => (state) => state.users.entities;

@@ -12,8 +12,8 @@ import {
 } from "../../../store/category";
 import Loader from "../Loader";
 import { createArrayInLocalStorage } from "../../../utils/basket.localStorage";
-import { loadUsersList } from "../../../store/users";
 import { loadOrdersList } from "../../../store/orders";
+import { loadUsersList } from "../../../store/users";
 
 const AppLoader = ({ children }) => {
   const dispatch = useDispatch();

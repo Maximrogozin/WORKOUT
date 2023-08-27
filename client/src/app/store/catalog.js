@@ -8,6 +8,7 @@ import {
 } from "../utils/basket.localStorage";
 import authService from "../services/auth.service";
 import { sortByProductId } from "../utils/sort";
+import { rootUsers } from "./users";
 const initialState = localStorageService.getAccessToken()
   ? {
       entities: null,
@@ -125,6 +126,7 @@ export const login =
       const data = await authService.login({ email, password });
       localStorageService.setTokens(data);
       dispatch(authRequestSuccess({ userId: data.userId }));
+      dispatch(rootUsers());
     } catch (error) {
       const { code, message } = error.response.data.error;
       if (code === 400) {
