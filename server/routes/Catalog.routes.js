@@ -31,7 +31,7 @@ router
   });
 
 router
-  .delete("/:productId", async (req, res) => {
+  .delete("/:productId", auth, async (req, res) => {
     try {
       const { productId } = req.params;
       await Catalog.findByIdAndDelete(productId);
@@ -43,7 +43,7 @@ router
       });
     }
   })
-  .patch("/:productId", async (req, res) => {
+  .patch("/:productId", auth, async (req, res) => {
     try {
       const { productId } = req.params;
       const updatedCatalog = await Catalog.findByIdAndUpdate(

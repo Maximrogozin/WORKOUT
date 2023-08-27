@@ -28,11 +28,6 @@ const usersSlice = createSlice({
     },
     usersReceved: (state, action) => {
       state.entities = action.payload;
-      // const user = state.entities.users.find(
-      //   (entity) => entity._id === state.userId
-      // );
-      // state.rootAdmin = user.rootAdmin;
-      // state.rootManager = user.rootManager;
       state.isLoading = false;
     },
     usersRoot: (state, action) => {

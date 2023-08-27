@@ -15,7 +15,7 @@ router
       });
     }
   })
-  .post("/", auth, async (req, res) => {
+  .post("/", async (req, res) => {
     try {
       const newUsers = await Users.create({
         ...req.body,
@@ -30,7 +30,7 @@ router
   });
 
 router
-  .delete("/:id", async (req, res) => {
+  .delete("/:id", auth, async (req, res) => {
     try {
       const { id } = req.params;
       await Users.findByIdAndDelete(id);
@@ -42,13 +42,13 @@ router
       });
     }
   })
-  .patch("/:id", async (req, res) => {
+  .patch("/:id", auth, async (req, res) => {
     try {
       const { id } = req.params;
+      console.log(req);
       const updatedUsers = await Users.findByIdAndUpdate(id, req.body, {
         new: true,
       });
-      console.log(updatedUsers);
       res.status(200).send(updatedUsers);
     } catch (error) {
       res.status(500).json({
