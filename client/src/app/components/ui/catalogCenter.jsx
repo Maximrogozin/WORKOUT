@@ -1,23 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CardActionArea } from "@mui/material";
+
 import ShoppingBadge from "./badge/ShopingBadge";
 import { incrementCount } from "../../store/catalog";
 import { truncateTextToThreeWords } from "../../utils/sort";
-import { ToastContainer, toast } from "react-toastify";
 
 const CatalogCenter = ({ item }) => {
   const dispatch = useDispatch();
   const notify = () =>
     toast.success("Добавлено !", {
-      position: toast.POSITION.TOP_RIGHT,
+      position: toast.POSITION.TOP_CENTER,
     });
   const handleClick = (item) => {
     dispatch(incrementCount(item._id));
     notify();
   };
+
   return (
     <div className="col-xl-3 col-lg-4 col-md-6" key={item._id}>
       <Link
@@ -54,6 +57,10 @@ const CatalogCenter = ({ item }) => {
       <ToastContainer />
     </div>
   );
+};
+
+CatalogCenter.propTypes = {
+  item: PropTypes.object,
 };
 
 export default CatalogCenter;

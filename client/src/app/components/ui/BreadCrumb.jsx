@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import { getCatalogsById } from "../../store/catalog";
 
 const Breadcrumbs = () => {
@@ -36,6 +38,10 @@ const Breadcrumbs = () => {
       </nav>
     </div>
   );
+};
+
+Breadcrumbs.propTypes = {
+  item: PropTypes.object,
 };
 
 export default Breadcrumbs;

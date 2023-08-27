@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import { Copyright } from "./footer";
 import { validator } from "../../utils/ validator";
 import { getAuthErrors, login } from "../../store/catalog";
@@ -25,6 +26,7 @@ export default function SignIn() {
     password: "",
     stayOn: false,
   });
+
   const loginError = useSelector(getAuthErrors());
   const dispath = useDispatch();
   const [errors, setErrors] = React.useState({});
@@ -131,11 +133,6 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link href="/auth/register" variant="body2">
                   {"Don't have an account? Sign Up"}

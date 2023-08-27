@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Slider = ({ images }) => {
   return (
@@ -51,6 +52,10 @@ const Slider = ({ images }) => {
       </button>
     </div>
   );
+};
+
+Slider.propTypes = {
+  images: PropTypes.array,
 };
 
 export default Slider;

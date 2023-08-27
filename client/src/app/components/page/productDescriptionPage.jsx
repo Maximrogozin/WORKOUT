@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Slider from "../ui/Slider";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
+import Slider from "../ui/Slider";
 import {
   getCatalogsById,
   getIsLoggedIn,
@@ -10,7 +11,6 @@ import {
   updateCatalog,
 } from "../../store/catalog";
 import { Copyright } from "../ui/footer";
-import { ToastContainer, toast } from "react-toastify";
 
 const ProductDescriptionPage = () => {
   const location = useLocation();
@@ -24,7 +24,7 @@ const ProductDescriptionPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const notify = () =>
     toast.success("Добавлено !", {
-      position: toast.POSITION.TOP_RIGHT,
+      position: toast.POSITION.TOP_CENTER,
     });
   const handleIncrement = (id) => {
     dispatch(incrementCount(id));

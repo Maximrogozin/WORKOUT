@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import { Copyright } from "./footer";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
@@ -28,6 +29,8 @@ export default function SignUp() {
     email: "",
     password: "",
     name: "",
+    rootAdmin: false,
+    rootManager: false,
   });
 
   const navigate = useNavigate();

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { deleteUser, getUsersList, updateUser } from "../../store/users";
 import TextField from "../common/form/textField";
+import UsersList from "../ui/UsersList";
 
-function UserList() {
+const UserList = () => {
   const users = useSelector(getUsersList());
   const dispatch = useDispatch();
   const [editUser, setEditUser] = useState({});
@@ -29,32 +31,12 @@ function UserList() {
               </div>
             </li>
             {users.map((item) => (
-              <li className="list-group-item p-2" key={item._id}>
-                <div className="row text-center align-items-center">
-                  <div className="col text-center">{item.name}</div>
-                  <div className="col">{item.email}</div>
-                  <div className="col">{item.rootAdmin ? "Да" : "Нет"}</div>
-                  <div className="col">{item.rootManager ? "Да" : "Нет"}</div>
-                  <div className="col">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      onClick={() => setEditUser(item)}
-                    >
-                      Редактировать
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      Удалить
-                    </button>
-                  </div>
-                </div>
-              </li>
+              <UsersList
+                item={item}
+                key={item._id}
+                handleDelete={handleDelete}
+                setEditUser={setEditUser}
+              />
             ))}
           </ul>
         )}
@@ -196,6 +178,6 @@ function UserList() {
       </div>
     </div>
   );
-}
+};
 
 export default UserList;

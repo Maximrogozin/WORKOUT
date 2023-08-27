@@ -1,12 +1,14 @@
 import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { nanoid } from "@reduxjs/toolkit";
-import { getBasket, removeCount } from "../../store/catalog";
+import PropTypes from "prop-types";
+
+import { removeCount } from "../../store/catalog";
 import { Copyright } from "./footer";
 import TextField from "../common/form/textField";
 import { validator } from "../../utils/ validator";
@@ -16,10 +18,10 @@ import { createOrder } from "../../store/orders";
 
 const defaultTheme = createTheme();
 
-export default function FastLogin({ setModalShow }) {
+const FastLogin = ({ setModalShow, basket }) => {
   const totalProducts = [];
   const dispatch = useDispatch();
-  const basket = useSelector(getBasket());
+  // const basket = useSelector(getBasket());
   basket.map((item) => totalProducts.push(item));
 
   const [formData, setFormData] = React.useState({
@@ -144,4 +146,11 @@ export default function FastLogin({ setModalShow }) {
       </ThemeProvider>
     </div>
   );
-}
+};
+
+FastLogin.propTypes = {
+  setModalShow: PropTypes.func,
+  basket: PropTypes.array,
+};
+
+export default FastLogin;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const CatalogLeft = ({ items, selectedItem, onItemSelect, clearFilter }) => {
   return (
@@ -23,6 +24,13 @@ const CatalogLeft = ({ items, selectedItem, onItemSelect, clearFilter }) => {
       </ul>
     </div>
   );
+};
+
+CatalogLeft.propTypes = {
+  item: PropTypes.object,
+  selectedItem: PropTypes.string,
+  onItemSelect: PropTypes.func,
+  clearFilter: PropTypes.func,
 };
 
 export default CatalogLeft;

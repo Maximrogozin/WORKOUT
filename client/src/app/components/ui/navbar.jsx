@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,10 +13,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import FitnessCenterSharpIcon from "@mui/icons-material/FitnessCenterSharp";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Link, useNavigate } from "react-router-dom";
+
 import ShoppingBadge from "./badge/ShopingBadge";
 import { getAllCount, getIsLoggedIn, logOut } from "../../store/catalog";
-import { useDispatch, useSelector } from "react-redux";
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,6 +37,7 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   const LogOut = () => {
     dispatch(logOut());
   };

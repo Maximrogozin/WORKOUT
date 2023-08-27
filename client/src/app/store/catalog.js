@@ -114,7 +114,7 @@ const {
 
 const authRequested = createAction("catalogs/authRequested");
 const catalogsUpdateFailed = createAction("catalogs/catalogsUpdateFailed");
-// const catalogUpdateRequested = createAction("catalogs/catalogUpdateRequested");
+const catalogUpdateRequested = createAction("catalogs/catalogUpdateRequested");
 
 export const login =
   ({ payload }) =>
@@ -166,7 +166,7 @@ export const loadCatalogsList = () => async (dispatch) => {
 };
 
 export const updateCatalog = (payload, productId) => async (dispatch) => {
-  // dispatch(catalogUpdateRequested());
+  dispatch(catalogUpdateRequested());
   try {
     const { content } = await catalogService.update(payload, productId);
     dispatch(catalogsUpdate(content));
